@@ -43,4 +43,11 @@ public class Manager : MonoBehaviour {
         if (selectedNPC != null) selectedNPC.StartCooldown();
         Paused = false;
     }
+
+    public void Update() {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Manager.inst.DialogueUIComp.StopSpinner();
+        }
+    }
 }

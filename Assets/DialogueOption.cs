@@ -15,40 +15,24 @@ public class DialogueOption : MonoBehaviour {
     private TextMeshProUGUI label;
     private Link dialogueLink;
 
+    private bool selected;
+    public bool Selected
+    {
+        get { return selected; }
+        set { selected = value; UpdateUI(); }
+    }
+
 	// Use this for initialization
 	void Start () {
         background = GetComponent<Image>();
         label = GetComponentInChildren<TextMeshProUGUI>();
-        EventTrigger trigger = gameObject.AddComponent<EventTrigger>();
-        addEvent(trigger, EventTriggerType.PointerEnter, OnPointerEnterDelegate);
-        addEvent(trigger, EventTriggerType.PointerExit, OnPointerExitDelegate);
-        addEvent(trigger, EventTriggerType.PointerClick, OnClickDelegate);
+        UpdateUI();
     }
 
-    private static void addEvent(EventTrigger trigger, EventTriggerType type, UnityAction<BaseEventData> callbackHandler)
+    public void UpdateUI()
     {
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = type;
-        entry.callback.AddListener(callbackHandler);
-        trigger.triggers.Add(entry);
-    }
-	
-	private void OnPointerEnterDelegate(BaseEventData data)
-    {
-        background.color = Color.white;
-        label.color = Color.black;
-    }
-
-    private void OnPointerExitDelegate(BaseEventData data)
-    {
-        background.color = new Color(0,0,0,0);
-        label.color = Color.white;
-    }
-
-    private void OnClickDelegate(BaseEventData data)
-    {
-        if (dialogueLink == null) return;
-        Manager.inst.DialogueUIComp.ShowDialogue(Manager.inst.Dialogue.passages[dialogueLink.pid-1]);
+        background.color = selected ? Color.white : Color.black;
+        label.color = selected ? Color.black : Color.white;
     }
 
     public void SetLink(Link link)
@@ -65,5 +49,11 @@ public class DialogueOption : MonoBehaviour {
 
         if (label == null) label = GetComponentInChildren<TextMeshProUGUI>();
         label.text = cleaned;
+    }
+
+    public void Follow()
+    {
+        if (dialogueLink == null) return;
+        Manager.inst.DialogueUIComp.ShowDialogue(Manager.inst.Dialogue.passages[dialogueLink.pid - 1]);
     }
 }
