@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour {
 
     #region inspector variables
     public DialogueUI DialogueUIComp;
+    public ScareFX ScareEffect;
     public TextAsset DialogueJSON;
     public Sprite[] CharacterSprites;
     #endregion

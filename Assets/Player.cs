@@ -96,6 +96,10 @@ public class Player : MonoBehaviour {
         if (npc != null)
         {
             if (!npc.isOnCooldown() && npc.pid > 0) Manager.inst.ShowDialogue(npc);
+            if (npc.pid < 0)
+            {
+                Manager.inst.ScareEffect.Play();
+            }
         }
     }
 }
