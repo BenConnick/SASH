@@ -18,10 +18,11 @@ public class Player : MonoBehaviour {
     private Vector3 accel;
     private Vector3 vel;
     private float rotationDeg;
+    private Animator animator;
 
     // Use this for initialization
     void Start () {
-		
+        animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -53,6 +54,7 @@ public class Player : MonoBehaviour {
         vel *= (1-frictionCoeff);
         vel = Vector3.ClampMagnitude(vel, maxSpeed);
         transform.position += vel * Time.deltaTime;
+        animator.speed = vel.magnitude;
     }
 
     void RotateSprite()
