@@ -18,6 +18,8 @@ public class DialogueUI : MonoBehaviour {
     private int selectedChoice = 0;
     private int step = 0;
     private bool alt;
+	private float prevPercent = 1; // do not reset zoom percent until 
+	private float percent;
 
     Coroutine spinRoutine;
 
@@ -28,6 +30,7 @@ public class DialogueUI : MonoBehaviour {
         if (passage.name.Equals("end"))
         {
             Manager.inst.HideDialogue();
+			Manager.inst.ScareEffect.Play ();
             return;
         }
         characterImage.sprite = Manager.inst.CharacterSprites[passage.pid];
@@ -73,7 +76,7 @@ public class DialogueUI : MonoBehaviour {
 
             //yield return new WaitForSeconds(oneMinus * mult);
             yield return new WaitForFixedUpdate();
-            float percent = (Time.time - startTime) / duration;
+            percent = (Time.time - startTime) / duration;
             float oneMinus = 1 - percent;
             nxOpTimer += Time.deltaTime;
             if (nxOpTimer > nextOptionInterval)
@@ -83,13 +86,18 @@ public class DialogueUI : MonoBehaviour {
                 nextOptionInterval *= 0.87f;
             }
             // also use this loop for grow
-            characterImage.rectTransform.localScale = Vector3.one * (1 + 0.25f*percent);
+			characterImage.rectTransform.localScale = Vector3.one * (prevPercent + 0.25f*percent);
         }
     }
 
     private void SelectNext() { 
         int[] steps = { 1, 3, 2, 0 };
         step = (step + 1) % 4;
+		// skip blank
+		if (options [steps[step]].GetText ().Equals("")) {
+			SelectNext ();
+			return;
+		}
         selectedChoice = steps[step];
         for (int i = 0; i < MAX_CHOICES; i++)
         {
@@ -108,6 +116,7 @@ public class DialogueUI : MonoBehaviour {
     private IEnumerator DelayedNextPassage()
     {
         yield return new WaitForSeconds(1);
+		prevPercent = 0.25f * percent + prevPercent;
         options[selectedChoice].Follow();
     }
 }

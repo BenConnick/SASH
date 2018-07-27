@@ -33,7 +33,7 @@ public class Manager : MonoBehaviour {
     public void ShowDialogue(int pid)
     {
         Paused = true;
-        DialogueUIComp.ShowDialogue(Dialogue.passages[pid]);
+        DialogueUIComp.ShowDialogue(Dialogue.passages[pid-1]);
         DialogueUIComp.gameObject.SetActive(true);
     }
 

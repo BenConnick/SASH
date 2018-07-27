@@ -56,4 +56,8 @@ public class DialogueOption : MonoBehaviour {
         if (dialogueLink == null) return;
         Manager.inst.DialogueUIComp.ShowDialogue(Manager.inst.Dialogue.passages[dialogueLink.pid - 1]);
     }
+
+	public string GetText() {
+		return label.text;
+	}
 }
