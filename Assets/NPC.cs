@@ -15,7 +15,7 @@ public class NPC : MonoBehaviour {
     [SerializeField]
     private Animator animator;
     [SerializeField]
-    private Collider2D trigger;
+    private Collider trigger;
     #endregion
 
     private Vector3 startingPos;
@@ -37,7 +37,6 @@ public class NPC : MonoBehaviour {
 	void Update () {
         if (Manager.inst.Paused) return;
         if (move) Move();
-        else animator.Stop();
         RotateSprite();
 	}
 
@@ -45,7 +44,7 @@ public class NPC : MonoBehaviour {
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(1, 10));
+            yield return new WaitForSeconds(Random.Range(3, 4));
             move = !move;
         }
 
@@ -53,11 +52,10 @@ public class NPC : MonoBehaviour {
 
     void Move()
     {
-        animator.Play(0);
+        
         switch (Mode)
         {
             case BehaviorType.IDLE:
-                animator.Stop();
                 Idle();
                 break;
             case BehaviorType.WALK_UP_DOWN:
@@ -67,6 +65,7 @@ public class NPC : MonoBehaviour {
                 WalkLeftRight();
                 break;
         }
+		animator.SetFloat ("Speed", vel.sqrMagnitude);
     }
 
     void Idle()
@@ -76,27 +75,27 @@ public class NPC : MonoBehaviour {
             cachedTime = Time.time;
             reverse = !reverse;
         }
-        transform.position = startingPos + (reverse ? Vector3.up : -Vector3.up) * .01f;
+		//transform.position = startingPos + (reverse ? Vector3.forward : -Vector3.forward) * .01f;
     }
 
     void WalkUpDown()
     {
-        vel = Vector3.up * WalkSpeed;
+		vel = Vector3.forward * WalkSpeed;
         if (reverse)
         {
-            if (transform.position.y - startingPos.y < -maxDist)
+            if (transform.position.z - startingPos.z < -maxDist)
             {
                 reverse = !reverse;
             }
             vel *= -1;
         } else
         {
-            if (transform.position.y - startingPos.y > maxDist)
+            if (transform.position.z - startingPos.z > maxDist)
             {
                 reverse = !reverse;
             }
         }
-        transform.position += vel * Time.deltaTime;
+        //transform.position += vel * Time.deltaTime;
     }
 
     void WalkLeftRight()
@@ -117,7 +116,7 @@ public class NPC : MonoBehaviour {
                 reverse = !reverse;
             }
         }
-        transform.position += vel * Time.deltaTime;
+        //transform.position += vel * Time.deltaTime;
     }
 
     void RotateSprite()
@@ -132,11 +131,11 @@ public class NPC : MonoBehaviour {
             {
                 rotationDeg = -90;
             }
-            if (vel.y < 0)
+            if (vel.z < 0)
             {
                 rotationDeg = 180;
             }
-            else if (vel.y > 0)
+            else if (vel.z > 0)
             {
                 rotationDeg = 0;
             }
