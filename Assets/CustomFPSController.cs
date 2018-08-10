@@ -1,14 +1,15 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using UnityStandardAssets.Characters.FirstPerson;
 
-namespace UnityStandardAssets.Characters.FirstPerson
+namespace SASH
 {
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(AudioSource))]
-    public class FirstPersonController : MonoBehaviour
+    public class CustomFPSController : MonoBehaviour
     {
         [SerializeField]
         private bool m_IsWalking;
@@ -112,6 +113,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void FixedUpdate()
         {
+            if (Manager.inst.Paused)
+            {
+                return;
+            }
             float speed;
             GetInput(out speed);
             // always move along the camera forward as it is the direction that it being aimed at

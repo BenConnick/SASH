@@ -2,52 +2,60 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Manager : MonoBehaviour {
-
-    public static Manager inst;
-
-    #region inspector variables
-    public DialogueUI DialogueUIComp;
-    public ScareFX ScareEffect;
-    public TextAsset DialogueJSON;
-    public Sprite[] CharacterSprites;
-    #endregion
-
-    public bool Paused { get; set; }
-    public TwineStory Dialogue { get; private set; }
-
-    private NPC selectedNPC;
-
-    // Use this for initialization
-    void Start () {
-        inst = this;
-        Dialogue = DialogueLoader.loadStory(DialogueJSON);
-	}
-
-    public void ShowDialogue(NPC npc)
+namespace SASH
+{
+    public class Manager : MonoBehaviour
     {
-        selectedNPC = npc;
-        ShowDialogue(npc.pid);
-    }
 
-    public void ShowDialogue(int pid)
-    {
-        Paused = true;
-        DialogueUIComp.ShowDialogue(Dialogue.passages[pid-1]);
-        DialogueUIComp.gameObject.SetActive(true);
-    }
+        public static Manager inst;
 
-    public void HideDialogue()
-    {
-        DialogueUIComp.gameObject.SetActive(false);
-        if (selectedNPC != null) selectedNPC.StartCooldown();
-        Paused = false;
-    }
+        #region inspector variables
+        public DialogueUI DialogueUIComp;
+        public ScareFX ScareEffect;
+        public TextAsset DialogueJSON;
+        public Sprite[] CharacterSprites;
+        public Player player;
+        #endregion
 
-    public void Update() {
-        if (Input.GetKeyDown(KeyCode.Space))
+        public bool Paused { get; set; }
+        public TwineStory Dialogue { get; private set; }
+
+        private NPC selectedNPC;
+
+        // Use this for initialization
+        void Start()
         {
-            Manager.inst.DialogueUIComp.StopSpinner();
+            inst = this;
+            Dialogue = DialogueLoader.loadStory(DialogueJSON);
+        }
+
+        public void ShowDialogue(NPC npc)
+        {
+            selectedNPC = npc;
+            ShowDialogue(npc.pid);
+        }
+
+        public void ShowDialogue(int pid)
+        {
+            Paused = true;
+            DialogueUIComp.ShowDialogue(Dialogue.passages[pid - 1]);
+            DialogueUIComp.gameObject.SetActive(true);
+        }
+
+        public void HideDialogue()
+        {
+            DialogueUIComp.gameObject.SetActive(false);
+            if (selectedNPC != null) selectedNPC.StartCooldown();
+            Paused = false;
+            player.Unlock();
+        }
+
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Manager.inst.DialogueUIComp.StopSpinner();
+            }
         }
     }
 }
