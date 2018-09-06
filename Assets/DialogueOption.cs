@@ -17,6 +17,8 @@ namespace SASH
         private TextMeshProUGUI label;
         private Link dialogueLink;
 
+        private bool initialized = false;
+
         private bool selected;
         public bool Selected
         {
@@ -27,13 +29,19 @@ namespace SASH
         // Use this for initialization
         void Start()
         {
+            Init();
+        }
+
+        private void Init()
+        {
             background = GetComponent<Image>();
             label = GetComponentInChildren<TextMeshProUGUI>();
-            UpdateUI();
+            initialized = true;
         }
 
         public void UpdateUI()
         {
+            if (!initialized) Init();
             background.color = selected ? Color.white : Color.black;
             label.color = selected ? Color.black : Color.white;
         }

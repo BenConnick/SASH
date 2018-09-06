@@ -22,10 +22,15 @@ namespace SASH
             {
                 if (!npc.isOnCooldown() && npc.pid > 0)
                 {
-                    // look at npc
-                    transform.forward = Vector3.ProjectOnPlane(transform.position - npc.transform.position, Vector3.up);
+                    fpsController.enabled = false;
                     // unlock mouse
                     fpsController.LockMouse(false);
+                    // look at npc
+                    Vector3 lookDir = Vector3.ProjectOnPlane(transform.position - npc.transform.position, Vector3.up);
+                    float y = Vector3.Angle(Vector3.forward, lookDir);
+                    //if (lookDir.z < 0) y = -y;
+                    //transform.eulerAngles = new Vector3(0, y, 0);
+                    transform.forward = -lookDir;
                     // play dialogue
                     Manager.inst.ShowDialogue(npc);
                 }
@@ -34,6 +39,7 @@ namespace SASH
 
         public void Unlock()
         {
+            fpsController.enabled = true;
             fpsController.LockMouse(true);
         }
     }
