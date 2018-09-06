@@ -153,6 +153,9 @@ namespace SASH
                 selectedOptionRT.sizeDelta = Vector2.zero;
                 yield return new WaitForEndOfFrame();
             }
+            selectedOptionRT.anchorMin = Vector2.zero;
+            selectedOptionRT.anchorMax = Vector2.one;
+            selectedOptionRT.sizeDelta = Vector2.zero;
             yield return new WaitForSeconds(0.8f);
             prevPercent = 0.25f * percent + prevPercent;
             options[selectedChoice].Follow();

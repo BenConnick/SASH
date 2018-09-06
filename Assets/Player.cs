@@ -17,7 +17,12 @@ namespace SASH
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            NPC npc = hit.gameObject.GetComponent<NPC>();
+            
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            NPC npc = other.GetComponent<NPC>();
             if (npc != null)
             {
                 if (!npc.isOnCooldown() && npc.pid > 0)
