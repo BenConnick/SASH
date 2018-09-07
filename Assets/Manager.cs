@@ -19,6 +19,7 @@ namespace SASH
 
         public bool Paused { get; set; }
         public TwineStory Dialogue { get; private set; }
+		public bool GameOverStarted { get; private set; }
 
         private NPC selectedNPC;
 
@@ -57,5 +58,10 @@ namespace SASH
                 Manager.inst.DialogueUIComp.StopSpinner();
             }
         }
+
+		public void StartGameOver() {
+			ScareEffect.Play();
+			GameOverStarted = true;
+		}
     }
 }

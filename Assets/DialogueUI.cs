@@ -18,6 +18,8 @@ namespace SASH
         private Image characterImage;
         [SerializeField]
         private DialogueOption selectedOption;
+		[SerializeField]
+		private Pulse instructionPulse;
         private RectTransform selectedOptionRT;
 
         private const int MAX_CHOICES = 4;
@@ -44,7 +46,7 @@ namespace SASH
             if (passage.name.Equals("end"))
             {
                 Manager.inst.HideDialogue();
-                Manager.inst.ScareEffect.Play();
+				Manager.inst.StartGameOver ();
                 return;
             }
             characterImage.sprite = Manager.inst.CharacterSprites[passage.pid];
@@ -102,6 +104,7 @@ namespace SASH
                     nxOpTimer -= nextOptionInterval;
                     SelectNext();
                     nextOptionInterval *= 0.87f;
+					instructionPulse.speed = 1 / nextOptionInterval;
                 }
                 // also use this loop for grow
                 characterImage.rectTransform.localScale = Vector3.one * (prevPercent + 0.25f * percent);

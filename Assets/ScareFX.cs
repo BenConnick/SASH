@@ -15,7 +15,7 @@ public class ScareFX : MonoBehaviour {
     private Text responseLabel;
 
     private RectTransform rt;
-    private const int numLoops = 30;
+    private const int numLoops = 20;
     private const float startInterval = 1f;
     private float interval = 1f;
     private bool playing;
@@ -44,14 +44,18 @@ public class ScareFX : MonoBehaviour {
         {
             yield return new WaitForSeconds(interval);
             interval *= Random.Range(0.6f, 0.7f);
-            CreateLabel(choiceLabel.gameObject);
+            CreateLabel(choiceLabel.gameObject, false);
             yield return new WaitForSeconds(interval);
             CreateLabel(responseLabel.gameObject);
+			yield return new WaitForSeconds(interval);
+			CreateLabel(responseLabel.gameObject);
+			yield return new WaitForSeconds(interval);
+			CreateLabel(responseLabel.gameObject);
         }
         playing = false;
     }
 
-    public void CreateLabel(GameObject original)
+	public void CreateLabel(GameObject original, bool toFront = true)
     {
         GameObject newLabel = GameObject.Instantiate(original,rt);
         ((RectTransform)newLabel.transform).anchoredPosition = 
@@ -59,5 +63,6 @@ public class ScareFX : MonoBehaviour {
                 Random.Range(rt.rect.min.x, rt.rect.max.x), 
                 Random.Range(rt.rect.min.y, rt.rect.max.y));
         newLabel.SetActive(true);
+		if (toFront) newLabel.transform.SetAsLastSibling();
     }
 }

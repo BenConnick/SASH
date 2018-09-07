@@ -42,8 +42,8 @@ namespace SASH
         {
             if (Manager.inst.Paused)
             {
-
-                animator.SetFloat("Playback", 0);
+				animator.SetFloat("Speed", 0);
+                animator.SetFloat("Playback", 0.2f);
                 return;
             }
             else
@@ -69,15 +69,14 @@ namespace SASH
 
             switch (Mode)
             {
-                case BehaviorType.IDLE:
-                    Idle();
-                    break;
-                case BehaviorType.WALK_UP_DOWN:
-                    WalkUpDown();
-                    break;
-                case BehaviorType.WALK_LEFT_RIGHT:
-                    WalkLeftRight();
-                    break;
+			case BehaviorType.IDLE:
+                break;
+            case BehaviorType.WALK_UP_DOWN:
+                WalkUpDown();
+                break;
+            case BehaviorType.WALK_LEFT_RIGHT:
+                WalkLeftRight();
+                break;
             }
             animator.SetFloat("Speed", vel.sqrMagnitude);
         }
