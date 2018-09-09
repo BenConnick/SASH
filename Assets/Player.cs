@@ -25,7 +25,7 @@ namespace SASH
             NPC npc = other.GetComponent<NPC>();
             if (npc != null)
             {
-                if (!npc.isOnCooldown() && npc.pid > 0)
+                if (!npc.isOnCooldown() && npc.pid > 0 && !Manager.inst.GameOverStarted)
                 {
                     fpsController.enabled = false;
                     // unlock mouse

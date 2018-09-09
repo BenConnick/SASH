@@ -59,9 +59,14 @@ namespace SASH
             }
         }
 
-		public void StartGameOver() {
-			ScareEffect.Play();
+		public void StartGameOver(string triggerReason, string optionalText = null) {
+			ScareEffect.Play(triggerReason, optionalText);
 			GameOverStarted = true;
 		}
+
+        public void RestartFromCheckpoint()
+        {
+
+        }
     }
 }

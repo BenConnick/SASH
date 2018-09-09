@@ -38,7 +38,7 @@ namespace SASH
             selectedOption.gameObject.SetActive(false);
         }
 
-        public void ShowDialogue(Passage passage)
+        public void ShowDialogue(Passage passage, string previous = "none")
         {
             selectedOption.gameObject.SetActive(false);
             gameObject.SetActive(true);
@@ -46,7 +46,12 @@ namespace SASH
             if (passage.name.Equals("end"))
             {
                 Manager.inst.HideDialogue();
-				Manager.inst.StartGameOver ();
+                return;
+            }
+            if (passage.text.Substring(0,3) == "END")
+            {
+                Manager.inst.HideDialogue();
+                Manager.inst.StartGameOver(previous, passage.text);
                 return;
             }
             characterImage.sprite = Manager.inst.CharacterSprites[passage.pid];

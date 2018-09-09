@@ -65,7 +65,7 @@ namespace SASH
         public void Follow()
         {
             if (dialogueLink == null) return;
-            Manager.inst.DialogueUIComp.ShowDialogue(Manager.inst.Dialogue.passages[dialogueLink.pid - 1]);
+            Manager.inst.DialogueUIComp.ShowDialogue(Manager.inst.Dialogue.passages[dialogueLink.pid - 1], dialogueLink.name);
         }
 
         public string GetText()
