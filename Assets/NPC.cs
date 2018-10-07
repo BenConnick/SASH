@@ -139,11 +139,11 @@ namespace SASH
             {
                 if (vel.x < 0)
                 {
-                    rotationDeg = 90;
+                    rotationDeg = -90;
                 }
                 else if (vel.x > 0)
                 {
-                    rotationDeg = -90;
+                    rotationDeg = 90;
                 }
                 if (vel.z < 0)
                 {
@@ -167,6 +167,12 @@ namespace SASH
         public void StartCooldown()
         {
             cooldownEnd = cooldownDuration + Time.time;
+        }
+
+        private void OnAnimatorIK(int layerIndex)
+        {
+            animator.SetLookAtWeight(1, 0.1f);
+            animator.SetLookAtPosition(Manager.inst.player.transform.position+Vector3.up);
         }
     }
 }
