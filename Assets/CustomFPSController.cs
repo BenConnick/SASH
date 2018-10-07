@@ -81,7 +81,8 @@ namespace SASH
         private void Update()
         {
             RotateView();
-            // the jump state needs to read here to make sure it is not missed
+
+            /* NO JUMP IN THIS GAME
             if (!m_Jump)
             {
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
@@ -99,7 +100,8 @@ namespace SASH
                 m_MoveDir.y = 0f;
             }
 
-            m_PreviouslyGrounded = m_CharacterController.isGrounded;
+            m_PreviouslyGrounded = m_CharacterController.isGrounded;*/
+
         }
 
 
